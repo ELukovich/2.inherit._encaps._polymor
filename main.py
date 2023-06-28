@@ -27,6 +27,16 @@ class Student:
             sum_lec += len(course)
             average_grade = round(sum_grade / sum_lec, 1)
         return average_grade
+    
+    def av_grade_for_course(self, course):
+        sum_grade = 0
+        len_grade = 0
+        for lesson in self.grades.keys():
+            if lesson == course:
+                sum_grade += sum(self.grades[course])
+                len_grade += len(self.grades[course])
+        average_grade = round(sum_grade / len_grade, 1)
+        return average_grade
 
     def __str__(self):
         some_student = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.aver_grade()}\nКурсы в процессе изучения: {", ".join(self.courses_in_progress)}\nЗавершенные курсы: {", ".join(self.finished_courses)}'
@@ -58,6 +68,15 @@ class Lecturer(Mentor):
             sum_grade += sum(course)
             sum_lec += len(course)
             average_grade = round(sum_grade / sum_lec, 1)
+        return average_grade
+    
+    def av_grade_for_course(self, course):
+        sum_grade = 0
+        len_grade = 0
+        for course in self.grades.keys():
+            sum_grade += sum(self.grades[course])
+            len_grade += len(self.grades[course])
+        average_grade = round(sum_grade / len_grade, 1)
         return average_grade
 
     def __str__(self):
@@ -137,6 +156,26 @@ student_1.rate_lec(lecturer_2, 'Компьютерная грамотность'
 
 student_2.rate_lec(lecturer_1, 'Старт в програмировании', 9)
 student_2.rate_lec(lecturer_2, 'Компьютерная грамотность', 8)
+
+
+student_list = [student_1, student_2]
+lecturer_list = [lecturer_1, lecturer_2]
+
+
+def average_grade_for_course(course, student_list):
+    sum_grade = 0
+    sum_len = 0
+    for stud in student_list:
+        for course in stud.grades:
+            stud_sum_grade = stud.av_grade_for_course(course)
+            sum_grade += stud_sum_grade
+            sum_len += 1
+    average_grade = round(sum_grade / sum_len, 1)
+    return average_grade
+
+
+print(average_grade_for_course('Python', student_list))
+print(average_grade_for_course('Python', lecturer_list))
 
 
 print('Студенты:')
